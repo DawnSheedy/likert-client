@@ -26,11 +26,7 @@ const handlers = {
 
     [SET_SURVEY]: function (state, action) {
         return Object.assign({}, state, {
-            activeSurvey: {
-                completed: false,
-                title: action.survey.title,
-                description: action.description
-            }
+            activeSurvey: action.survey
         })
     },
 

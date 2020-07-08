@@ -7,12 +7,14 @@ import { Button, Container, Col, Row } from 'react-bootstrap';
 import { setUiMode } from '../../redux/actions';
 import { centerFlexBox } from '../../Styles'
 import SurveyGreeting from '../survey-greeting'
+import SurveyCompletion from '../survey-completion';
 
 class UiController extends Component {
 
     uiMap = {
         [UI_MODES.LOGIN]: (<AccessForm />),
         [UI_MODES.SURVEY_WELCOME]: (<SurveyGreeting />),
+        [UI_MODES.SURVEY]: (<SurveyCompletion />),
         [UI_MODES.LOADING]: (<h1><Button onClick={() => { this.props.dispatch(setUiMode(UI_MODES.LOGIN)) }}>Hello</Button></h1>)
     }
 

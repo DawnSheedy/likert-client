@@ -63,7 +63,7 @@ class AccessForm extends Component {
                     })
             })
             .catch(err => {
-                alert(err.message);
+                this.showWarning("API Connection Error", err.message)
             })
         event.preventDefault();
 
@@ -111,7 +111,7 @@ class AccessForm extends Component {
                         <Card.Link href="#"
                             onClick={() => {
                                 this.props.dispatch(setAuthMode(this.props.authMode === AUTH_MODES.SURVEY ? AUTH_MODES.ADMIN : AUTH_MODES.SURVEY))
-                            }}>{!this.props.authMode ? "Administrator Login" : "Survey Access"}</Card.Link>
+                            }}>{!this.props.authMode ? "Administrator Login" : "Go Back"}</Card.Link>
 
                         <Collapse in={this.props.authMode === AUTH_MODES.ADMIN}>
                             <div id="adminLoginForm">

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap';
+import { setUiMode } from '../../redux/actions';
+import { UI_MODES } from '../../utils/constants';
 
 const generateTimeOfDayString = () => {
     const hour = new Date().getHours();
@@ -8,22 +10,19 @@ const generateTimeOfDayString = () => {
         return "Morning"
     }
     if (hour < 18) {
-        return "Afternoon"
+        return "☀Afternoon"
     }
     return "Evening"
 }
 
 class SurveyGreeting extends Component {
-    goToSurvey() {
-
-    }
-
     render() {
     return(<div>
-    <h1>Good {generateTimeOfDayString()}, {this.props.user.firstName} {this.props.user.lastName}</h1>
+    <h1>Good {generateTimeOfDayString()}, {this.props.user.firstName}</h1>
     <h5>You're about to take the survey: {this.props.activeSurvey.title}</h5>
+    <p>Quick note: once you've answered a question. It cannot be changed.</p>
     <hr />
-    <Button onClick={this.goToSurvey}>I'm Ready</Button>
+    <Button onClick={() => {this.props.dispatch(setUiMode(UI_MODES.SURVEY))}}>I'm Ready</Button>
     </div>
     )
     }
