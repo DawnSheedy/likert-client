@@ -1,11 +1,12 @@
 export const UI_MODES = {
     LOGIN: 0,
     SURVEY: 1,
-    SURVEY_END: 2,
-    ADMIN: 3,
-    EXIT: 4,
-    LOADING: 5,
-    ERROR: 6
+    SURVEY_WELCOME: 2,
+    SURVEY_END: 3,
+    ADMIN: 4,
+    EXIT: 5,
+    LOADING: 6,
+    ERROR: 7
 }
 
 export const AUTH_MODES = {
