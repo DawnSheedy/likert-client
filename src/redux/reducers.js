@@ -1,4 +1,4 @@
-import { SET_UI_MODE, SET_AUTH_MODE, SET_AUTH_TOKEN, SET_SURVEY, SET_QUESTIONS, SET_ANSWER, SET_USER } from './actions'
+import { RESET_STATE, SET_UI_MODE, SET_AUTH_MODE, SET_AUTH_TOKEN, SET_SURVEY, SET_QUESTIONS, SET_ANSWER, SET_USER } from './actions'
 
 import { UI_MODES, AUTH_MODES } from './../utils/constants'
 
@@ -61,6 +61,10 @@ const handlers = {
         return Object.assign({}, state, {
             user: action.user
         })
+    },
+
+    [RESET_STATE]: function(state, action) {
+        return Object.assign({}, state, initialState)
     }
 }
 

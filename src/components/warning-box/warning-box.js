@@ -3,6 +3,7 @@ import {Transition} from 'react-spring/renderprops'
 import {Alert} from 'react-bootstrap'
 
 class WarningBox extends Component {
+
     render() {
         return (<Transition
             items={this.props.warning}

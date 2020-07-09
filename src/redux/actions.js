@@ -15,7 +15,15 @@ export const SET_SURVEY = 'SET_SURVEY'
 export const SET_QUESTIONS = 'SET_QUESTIONS'
 export const SET_ANSWER = 'SET_ANSWER'
 
+export const RESET_STATE = 'RESET_STATE'
+
 //Admin mode
+
+export function resetState() {
+    return {
+        type: RESET_STATE
+    }
+}
 
 //UI States
 export function setUiMode(uiMode = UI_MODES.ERROR) {

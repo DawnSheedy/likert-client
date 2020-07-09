@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Form, Button, Collapse, Alert } from 'react-
 import { connect } from 'react-redux'
 import { SET_AUTH_MODE, setAuthMode, setUiMode, setUser, setAuthToken, setSurvey } from '../../redux/actions';
 import { AUTH_MODES, UI_MODES } from '../../utils/constants';
-import { getUserFromAccessCode, getSurveyFromId } from '../../utils/callApi';
+import { getUserFromAccessCode, getSurveyFromId, getAdminToken, getAdminUser } from '../../utils/callApi';
 import { Spring, Transition } from 'react-spring/renderprops'
 import WarningBox from '../warning-box';
 
@@ -37,34 +37,55 @@ class AccessForm extends Component {
             warningTitle,
             warningSubtitle
         })
+        setTimeout(function () {this.setState({ warningTitle: ""})}.bind(this), 10000)
     }
 
     handleSubmit(event) {
-        getUserFromAccessCode(this.state.accessCode)
-            .then(json => {
-                if (json.error) {
-                    this.showWarning("That Access Code was incorrect.",
-                    "Please confirm that your code is correct, or contact your survey provider.")
-                    setTimeout(() => {
-                        this.showWarning('')
-                    }, 10000)
-                    return
-                }
-                this.props.dispatch(setUser(json))
-                this.props.dispatch(setAuthToken(this.state.accessCode))
-                getSurveyFromId(json.id, this.state.accessCode, this.props.authMode)
-                    .then(json => {
-                        if (json.error) {
-                            this.showWarning("An unknown error occurred.", "Please contact you survey provider.")
-                            return
-                        }
-                        this.props.dispatch(setSurvey(json))
-                        this.props.dispatch(setUiMode(UI_MODES.SURVEY_WELCOME))
-                    })
-            })
-            .catch(err => {
-                this.showWarning("API Connection Error", err.message)
-            })
+        if (this.props.authMode === AUTH_MODES.SURVEY) {
+            getUserFromAccessCode(this.state.accessCode)
+                .then(json => {
+                    if (json.error) {
+                        this.showWarning("That Access Code was incorrect.",
+                            "Please confirm that your code is correct, or contact your survey provider.")
+                        return
+                    }
+                    this.props.dispatch(setUser(json))
+                    this.props.dispatch(setAuthToken(this.state.accessCode))
+                    getSurveyFromId(json.id, this.state.accessCode, this.props.authMode)
+                        .then(json => {
+                            if (json.error) {
+                                this.showWarning("An unknown error occurred.", "Please contact you survey provider.")
+                                return
+                            }
+                            this.props.dispatch(setSurvey(json))
+                            this.props.dispatch(setUiMode(UI_MODES.SURVEY_WELCOME))
+                        })
+                })
+                .catch(err => {
+                    this.showWarning("API Connection Error", "Please try again later.")
+                })
+        } else {
+            getAdminToken(this.state.email, this.state.password)
+                .then(token => {
+                    if (!token) {
+                        this.showWarning("Incorrect email or password.", "")
+                        return
+                    }
+                    this.props.dispatch(setAuthToken(token))
+                    getAdminUser(token)
+                        .then(json => {
+                            if (json.error) {
+                                this.showWarning("An unknown error occurred.", "Please contact your survey provider.")
+                                return
+                            }
+                            this.props.dispatch(setUser(json))
+                        })
+                })
+                .catch(err => {
+                    this.showWarning("API Connection Error", "Please try again later.")
+                })
+        }
+
         event.preventDefault();
 
     }
@@ -92,7 +113,7 @@ class AccessForm extends Component {
                                     If you do not have an access code, please contact your survey provider.
                                         </Card.Subtitle>
                                 <hr />
-                                    <WarningBox warning={this.state.warningTitle} subtitle={this.state.warningSubtitle} />
+                                <WarningBox warning={this.state.warningTitle} subtitle={this.state.warningSubtitle} />
                                 <Form>
                                     <Form.Group controlId="formSurveyAccessCode">
                                         <Form.Label>Survey Access Code:</Form.Label>
@@ -123,6 +144,7 @@ class AccessForm extends Component {
                                     If you have lost your credentials, contact the server administrator.
                                     </Card.Subtitle>
                                 <hr />
+                                <WarningBox warning={this.state.warningTitle} subtitle={this.state.warningSubtitle} />
                                 <Form>
                                     <Form.Group controlId="formBasicEmail">
                                         <Form.Label>Email address</Form.Label>

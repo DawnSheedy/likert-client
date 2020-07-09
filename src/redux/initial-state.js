@@ -11,5 +11,9 @@ export default {
         questions: null,
         completed: false
     },
-    user: null
+    user: {
+        id: "",
+        firstName: "",
+        lastName: ""
+    }
 }

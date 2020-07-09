@@ -5,6 +5,7 @@ import UIController from './components/ui-controller'
 import { Container } from 'react-bootstrap';
 import { bodyContainer } from './Styles';
 import { connect } from 'react-redux'
+import './bootstrap.min.css'
 
 class App extends React.Component {
     state = {

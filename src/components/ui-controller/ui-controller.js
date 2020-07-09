@@ -8,6 +8,7 @@ import { setUiMode } from '../../redux/actions';
 import { centerFlexBox } from '../../Styles'
 import SurveyGreeting from '../survey-greeting'
 import SurveyCompletion from '../survey-completion';
+import SurveyEnd from '../survey-end';
 
 class UiController extends Component {
 
@@ -15,15 +16,15 @@ class UiController extends Component {
         [UI_MODES.LOGIN]: (<AccessForm />),
         [UI_MODES.SURVEY_WELCOME]: (<SurveyGreeting />),
         [UI_MODES.SURVEY]: (<SurveyCompletion />),
-        [UI_MODES.LOADING]: (<h1><Button onClick={() => { this.props.dispatch(setUiMode(UI_MODES.LOGIN)) }}>Hello</Button></h1>)
+        [UI_MODES.LOADING]: (<h1><Button onClick={() => { this.props.dispatch(setUiMode(UI_MODES.LOGIN)) }}>Hello</Button></h1>),
+        [UI_MODES.SURVEY_END]: (<SurveyEnd />)
     }
 
     render() {
         return (
             <div style={centerFlexBox}>
-
                 <Transition
-                    config={{ mass: 1, tension: 250, friction: 15 }}
+                    config={{ mass: 1, tension: 250, friction: 25 }}
                     items={this.props.uiMode}
                     from={{ position: 'absolute', width: '100%', opacity: 0, transform: 'translate3d(0,-50%,0)' }}
                     enter={{ opacity: 1, transform: 'translate3d(0,0px,0)' }}
