@@ -9,6 +9,7 @@ import { centerFlexBox } from '../../Styles'
 import SurveyGreeting from '../survey-greeting'
 import SurveyCompletion from '../survey-completion';
 import SurveyEnd from '../survey-end';
+import AdminRouter from '../admin-panel';
 
 class UiController extends Component {
 
@@ -19,10 +20,13 @@ class UiController extends Component {
         [UI_MODES.LOADING]: (<h1><Button onClick={() => { this.props.dispatch(setUiMode(UI_MODES.LOGIN)) }}>Hello</Button></h1>),
         [UI_MODES.SURVEY_END]: (<SurveyEnd />)
     }
-
     render() {
-        return (
-            <div style={centerFlexBox}>
+            if (this.props.uiMode === UI_MODES.ADMIN) {
+                return (<div>
+                    <AdminRouter />
+                </div>)
+            }
+            return (<div style={centerFlexBox}>
                 <Transition
                     config={{ mass: 1, tension: 250, friction: 25 }}
                     items={this.props.uiMode}

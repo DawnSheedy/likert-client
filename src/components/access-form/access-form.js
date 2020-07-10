@@ -78,7 +78,12 @@ class AccessForm extends Component {
                                 this.showWarning("An unknown error occurred.", "Please contact your survey provider.")
                                 return
                             }
+                            if (!json.isAdmin) {
+                                this.showWarning("Incorrect email or password.", ``)
+                                return
+                            }
                             this.props.dispatch(setUser(json))
+                            this.props.dispatch(setUiMode(UI_MODES.ADMIN))
                         })
                 })
                 .catch(err => {
