@@ -22,9 +22,7 @@ class UiController extends Component {
     }
     render() {
             if (this.props.uiMode === UI_MODES.ADMIN) {
-                return (<div>
-                    <AdminRouter />
-                </div>)
+                return (<AdminRouter />)
             }
             return (<div style={centerFlexBox}>
                 <Transition
