@@ -1,4 +1,4 @@
-#Likert Client
+# Likert Client
 
 A client written in react for likert-api.
 
